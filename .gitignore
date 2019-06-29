@@ -105,9 +105,6 @@ ENV/
 *.pyc
 *.db
 *.pid
-# django migrations 
-**/migrations/**
-!**/migrations
-!**/migrations/__init__.py
+# django migrations
 # intellij configurations
 .idea/
