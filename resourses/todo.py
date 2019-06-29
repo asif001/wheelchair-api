@@ -1,30 +1,58 @@
-from flask import request
+from flask import request, jsonify
 from flask_restful import Resource
 
 acl_val = 0
 fall_status = 0
-isTriggered = "0"
+isTriggered = 0
 
 
 class Status(Resource):
     def get(self):
         global fall_status, acl_val, isTriggered
-        if isTriggered == "0":
+        if fall_status == 0:
             if 110 <= acl_val <= 250:
                 fall_status = 1
-                return {"Accelerometer": acl_val, "FallStatus": fall_status}
+                data = {
+                    "Accelerometer": acl_val,
+                    "FallStatus": fall_status,
+                }
+                resp = jsonify(data)
+                resp.status_code = 200
+                return resp
             else:
                 fall_status = 0
-                return {"Accelerometer": acl_val, "FallStatus": fall_status}
+                data = {
+                    "Accelerometer": acl_val,
+                    "FallStatus": fall_status,
+                }
+                resp = jsonify(data)
+                resp.status_code = 200
+                return resp
         else:
-            return "Whhelchair is now in fall state. Please recover"
+            data = {
+                "Accelerometer": acl_val,
+                "FallStatus": fall_status,
+            }
+            resp = jsonify(data)
+            resp.status_code = 200
+            return resp
+
+    def post(self):
+        global acl_val
+        acl_val = float(request.form["Accelerometer"])
 
 
 class Trigger(Resource):
     def post(self):
         global isTriggered
-        isTriggered = request.form["isTriggered"]
+        print(int(request.form["isTriggered"]))
+        isTriggered = int(request.form["isTriggered"])
 
     def get(self):
         global isTriggered
-        return {"isTriggered": isTriggered}
+        data = {
+            "isTriggered": isTriggered,
+        }
+        resp = jsonify(data)
+        resp.status_code = 200
+        return resp
