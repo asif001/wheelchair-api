@@ -4,7 +4,7 @@ from flask_restful import Resource
 
 class Status(Resource):
     values = {'acl_val': 0.0, 'fall_status': 0}
-    
+
     def get(self):
         if self.values['fall_status'] == 0:
             if 110 <= self.values['acl_val'] <= 250:
