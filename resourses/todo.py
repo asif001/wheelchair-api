@@ -1,38 +1,30 @@
 from flask import request
 from flask_restful import Resource
 
-todos = [
-
-  {
-    "id": 1,
-    "item": "Create sample app",
-    "status": "Completed"
-  },
-  {
-    "id": 2,
-    "item": "Deploy in Heroku",
-    "status": "Open"
-  },
-  {
-    "id": 3,
-    "item": "Publish",
-    "status": "Open"
-  }
-]
+acl_val = 0
+fall_status = 0
+isTriggered = "0"
 
 
-class Todo(Resource):
+class Status(Resource):
+    def get(self):
+        global fall_status, acl_val, isTriggered
+        if isTriggered == "0":
+            if 110 <= acl_val <= 250:
+                fall_status = 1
+                return {"Accelerometer": acl_val, "FallStatus": fall_status}
+            else:
+                fall_status = 0
+                return {"Accelerometer": acl_val, "FallStatus": fall_status}
+        else:
+            return "Whhelchair is now in fall state. Please recover"
 
-    def get(self, id):
-        for todo in todos:
-            if id == todo["id"]:
-                return todo, 200
-        return "Item not found for the id: {}".format(id), 404
 
-    def put(self, id):
-        for todo in todos:
-            if id == todo["id"]:
-                todo["item"] = request.form["data"]
-                todo["status"] = "Open"
-                return todo, 200
-        return "Item not found for the id: {}".format(id), 404
+class Trigger(Resource):
+    def post(self):
+        global isTriggered
+        isTriggered = request.form["isTriggered"]
+
+    def get(self):
+        global isTriggered
+        return {"isTriggered": isTriggered}
