@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from flask_restful import Api
-from resourses.todo import Status, Trigger
+from resourses.todo import Status, Trigger, Restart
 import os
 
 app = Flask(__name__)
@@ -15,6 +15,7 @@ api = Api(app)
 
 api.add_resource(Status, "/status/")
 api.add_resource(Trigger, "/trigger/")
+api.add_resource(Restart, "/restart/")
 
 db = SQLAlchemy()
 migrate = Migrate()

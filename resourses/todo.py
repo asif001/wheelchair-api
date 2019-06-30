@@ -69,16 +69,65 @@ class Trigger(Resource):
     def post(self):
         from app import db, Values
         values = Values.query.get(1)
-        values.isTriggered = int(request.form["isTriggered"])
-        db.session.add(values)
-        db.session.commit()
+        if values is not None:
+            values.isTriggered = int(request.form["isTriggered"])
+            db.session.add(values)
+            db.session.commit()
+        else:
+            db.session.add(
+                Values(id=1, fall_status=0, Accelerometer=0, isTriggered=int(request.form["isTriggered"])))
+            db.session.commit()
 
     def get(self):
         from app import db, Values
         values = Values.query.get(1)
-        data = {
-            "isTriggered": int(values.isTriggered),
-        }
-        resp = jsonify(data)
-        resp.status_code = 200
-        return resp
+        if values is not None:
+            data = {
+                "isTriggered": int(values.isTriggered),
+            }
+            resp = jsonify(data)
+            resp.status_code = 200
+            return resp
+        else:
+            db.session.add(
+                Values(id=1, fall_status=0, Accelerometer=0, isTriggered=0))
+            db.session.commit()
+            data = {
+                "isTriggered": 0,
+            }
+            resp = jsonify(data)
+            resp.status_code = 200
+            return resp
+
+
+class Restart(Resource):
+
+    def get(self):
+        from app import db, Values
+        values = Values.query.get(1)
+        if values is not None:
+            values.isTriggered = 0
+            values.fall_status = 0
+            values.Accelerometer = 0
+            db.session.add(values)
+            db.session.commit()
+            data = {
+                "isTriggered": 0,
+                "fall_status": 0,
+                "Accelerometer": 0,
+            }
+            resp = jsonify(data)
+            resp.status_code = 200
+            return resp
+        else:
+            db.session.add(
+                Values(id=1, fall_status=0, Accelerometer=0, isTriggered=0))
+            db.session.commit()
+            data = {
+                "isTriggered": 0,
+                "fall_status": 0,
+                "Accelerometer": 0,
+            }
+            resp = jsonify(data)
+            resp.status_code = 200
+            return resp
