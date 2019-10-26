@@ -41,7 +41,7 @@ class Status(Resource):
                 resp.status_code = 200
                 return resp
         else:
-            db.session.add(Values(id=1, fall_status=0, Accelerometer=0, isTriggered=0,direction="front"))
+            db.session.add(Values(id=1, fall_status=0, Accelerometer=0, isTriggered=0, direction="front"))
             db.session.commit()
             data = {
                 "Accelerometer": 0,
