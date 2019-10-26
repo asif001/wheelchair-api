@@ -33,6 +33,7 @@ class Values(db.Model):
     fall_status = db.Column(db.Integer, default=0)
     Accelerometer = db.Column(db.Float, default=0.0)
     isTriggered = db.Column(db.Integer, default=0)
+    direction = db.Column(db.String, default="front")
 
     def __repr__(self):
         return '<Name: {}>'.format(self.name)

@@ -41,7 +41,7 @@ class Status(Resource):
                 resp.status_code = 200
                 return resp
         else:
-            db.session.add(Values(id=1, fall_status=0, Accelerometer=0, isTriggered=0))
+            db.session.add(Values(id=1, fall_status=0, Accelerometer=0, isTriggered=0,direction="front"))
             db.session.commit()
             data = {
                 "Accelerometer": 0,
@@ -60,8 +60,44 @@ class Status(Resource):
             db.session.add(values)
             db.session.commit()
         else:
-            db.session.add(Values(id=1, fall_status=0, Accelerometer=float(request.form["Accelerometer"]), isTriggered=0))
+            db.session.add(Values(id=1, fall_status=0, Accelerometer=float(request.form["Accelerometer"]), isTriggered=0, direction="front"))
             db.session.commit()
+
+
+class Direction(Resource):
+
+    def post(self):
+        from app import db, Values
+        values = Values.query.get(1)
+        if values is not None:
+            values.direction = str(request.form["direction"])
+            db.session.add(values)
+            db.session.commit()
+        else:
+            db.session.add(
+                Values(id=1, fall_status=0, Accelerometer=0, isTriggered=0, direction=str(request.form["direction"])))
+            db.session.commit()
+
+    def get(self):
+        from app import db, Values
+        values = Values.query.get(1)
+        if values is not None:
+            data = {
+                "direction": str(values.direction)
+            }
+            resp = jsonify(data)
+            resp.status_code = 200
+            return resp
+        else:
+            db.session.add(
+                Values(id=1, fall_status=0, Accelerometer=0, isTriggered=0, direction="front"))
+            db.session.commit()
+            data = {
+                "direction": "front"
+            }
+            resp = jsonify(data)
+            resp.status_code = 200
+            return resp
 
 
 class Trigger(Resource):
@@ -75,7 +111,7 @@ class Trigger(Resource):
             db.session.commit()
         else:
             db.session.add(
-                Values(id=1, fall_status=0, Accelerometer=0, isTriggered=int(request.form["isTriggered"])))
+                Values(id=1, fall_status=0, Accelerometer=0, isTriggered=int(request.form["isTriggered"]), direction="front"))
             db.session.commit()
 
     def get(self):
@@ -90,7 +126,7 @@ class Trigger(Resource):
             return resp
         else:
             db.session.add(
-                Values(id=1, fall_status=0, Accelerometer=0, isTriggered=0))
+                Values(id=1, fall_status=0, Accelerometer=0, isTriggered=0, direction="front"))
             db.session.commit()
             data = {
                 "isTriggered": 0,
@@ -121,7 +157,7 @@ class Restart(Resource):
             return resp
         else:
             db.session.add(
-                Values(id=1, fall_status=0, Accelerometer=0, isTriggered=0))
+                Values(id=1, fall_status=0, Accelerometer=0, isTriggered=0, direction="front"))
             db.session.commit()
             data = {
                 "isTriggered": 0,
