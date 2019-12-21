@@ -43,15 +43,15 @@ The project is made for the my Academic thesis - "Secured wheelchair in IoT Envi
 * POST: {"Accelerometer": accelerometer_data}
 * GET: {"Accelerometer": .. , "FallStatus": ..}
 
-1. direction -- Control wheelchair in different direction
+2. direction -- Control wheelchair in different direction
 * POST: {"direction": direction_to_go}
 * GET: {"direction": ..}
 
-1. trigger -- Trigger when a fall is detected
+3. trigger -- Trigger when a fall is detected
 * POST: {"isTriggered": boolean_trigger_data}
 * GET: {"isTriggered": ..}
 
-1. restart -- Reset all values to default
+4. restart -- Reset all values to default
 * GET: {"isTriggered": .. , "fall_status": .., "Accelerometer": ..}
 
 ## Contributing
