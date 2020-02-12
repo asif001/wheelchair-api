@@ -10,14 +10,14 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 ## local config ##
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'wheelchair-api.sqlite')
-#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'wheelchair-api.sqlite')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 ## local config ##
 ## cloud config ##
-app.config.from_mapping(SECRET_KEY=os.environ.get('SECRET_KEY') or 'dev_key',
-                        SQLALCHEMY_DATABASE_URI=os.environ.get('DATABASE_URL') or
-                        'sqlite:///' + os.path.join(app.instance_path, 'wheelchair-api.sqlite'),
-                        SQLALCHEMY_TRACK_MODIFICATIONS=False)
+#app.config.from_mapping(SECRET_KEY=os.environ.get('SECRET_KEY') or 'dev_key',
+                        #SQLALCHEMY_DATABASE_URI=os.environ.get('DATABASE_URL') or
+                        #'sqlite:///' + os.path.join(app.instance_path, 'wheelchair-api.sqlite'),
+                        #SQLALCHEMY_TRACK_MODIFICATIONS=False)
 ## cloud config ##
 
 api = Api(app)
