@@ -71,6 +71,7 @@ class Direction(Resource):
         values = Values.query.get(1)
         if values is not None:
             values.direction = str(request.form["direction"])
+            print(str(request.form["direction"]))
             db.session.add(values)
             db.session.commit()
         else:
